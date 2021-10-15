@@ -127,4 +127,5 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-*.patch
+/client/*.patch
+/server/*.patch

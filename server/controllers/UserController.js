@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const userRegistrationHandler = require('../security/Registeration');
+const userRegistrationHandler = require('../security/Registration');
 const userAuth = require('../security/Authentication');
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
@@ -134,7 +134,8 @@ exports.addProjectForOwner = async (req, res) => {
         await User.findByIdAndUpdate(req.user._id,
             { $push: { ownedProjects: req.body.newProject._id} },
             {useFindAndModify: true })
-        return res.status(201).redirect('/user/projects/owned/'+req.body.newProject._id);
+        // FIXME (jc) tutaj chyba brakuje /api 
+        return res.status(201).redirect('/api/user/projects/owned/'+req.body.newProject._id);
     } catch (err) {
         return res.status(500).json({err: "Error due to updating documentation"})
     }

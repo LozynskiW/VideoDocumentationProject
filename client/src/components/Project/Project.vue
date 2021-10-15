@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ProjectShowcase from "@/components/ProjectShowcase";
+import ProjectShowcase from "@/components/Project/ProjectShowcase";
 import projectService from "@/services/ProjectService";
 import DocumentationList from "@/components/Documentation/DocumentationList";
 import userService from "@/services/UserService";

@@ -272,7 +272,7 @@
 </template>
 
 <script>
-import UserList from "@/components/UserList";
+import UserList from "@/components/User/UserList";
 import projectService from "@/services/ProjectService";
 import userService from "@/services/UserService";
 export default {

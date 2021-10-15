@@ -17,7 +17,7 @@
     <div>
       <div class="row">
         <div class="col">
-          <q-card class="my-card bg-primary text-white">
+          <q-card class="my-card bg-teal text-white">
             <q-card-section>
               <div class="text-h4 text-center">Create project</div>
             </q-card-section>
@@ -25,11 +25,10 @@
             <q-card-section class="text-center">
                <i class="material-icons" style="font-size: 300px">create_new_folder</i>
             </q-card-section>
-
           </q-card>
         </div>
         <div class="col">
-          <q-card class="my-card bg-primary text-white">
+          <q-card class="my-card bg-teal text-white">
             <q-card-section>
               <div class="text-h4 text-center">Add documentation</div>
             </q-card-section>
@@ -41,7 +40,7 @@
           </q-card>
         </div>
         <div class="col">
-          <q-card class="my-card bg-primary text-white">
+          <q-card class="my-card bg-teal text-white">
             <q-card-section>
               <div class="text-h4 text-center">Upload videos and documents</div>
             </q-card-section>
@@ -58,7 +57,7 @@
       <div class="row">
 
         <div class="col">
-          <q-card class="my-card bg-positive text-white">
+          <q-card class="my-card bg-teal text-white">
             <q-card-section>
               <div class="text-h4 text-center">Share project documentation with other users</div>
             </q-card-section>
@@ -71,7 +70,7 @@
         </div>
 
         <div class="col">
-          <q-card class="my-card bg-positive text-white">
+          <q-card class="my-card bg-teal text-white">
             <q-card-section>
               <div class="text-h4 text-center">Get feedback from business partners</div>
             </q-card-section>
@@ -84,7 +83,7 @@
         </div>
 
         <div class="col">
-          <q-card class="my-card bg-positive text-white">
+          <q-card class="my-card bg-teal text-white">
             <q-card-section>
               <div class="text-h4 text-center">Store projects with documentation</div>
             </q-card-section>

@@ -1,11 +1,11 @@
 <template>
-  <div class="row bg-primary fit wrap justify-start items-start content-start" style="width: 100%">
+  <div class="row bg-primary fit wrap justify-start items-start content-start">
 
-    <div class="column col-12 justify-start">
+    <div class="column col-10 justify-start">
 
       <div class="row-1">
 
-        <q-item clickable class="bg-light-blue-10" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
+        <q-item clickable class="bg-light-blue-10" style="margin-bottom: 10px">
           <q-item-section avatar>
             <q-avatar>
               <q-icon name="dehaze"></q-icon>

@@ -17,16 +17,19 @@
           Number of comments: {{documentation.comments.length}}
         </q-item-section>
         <q-item-section v-if="userAccessLevel==='owner'">
-          <q-btn class="bg-negative" style="width: 10%; float: right" @click="deleteDocumentation">
+          <q-btn class="bg-negative" style="position: absolute;right:10px;top:10px; width: 10%" @click="deleteDocumentation">
             <q-icon name="delete"></q-icon>
           </q-btn>
         </q-item-section>
       </q-item>
     </template>
 
-    <DocumentList :documentList="documentation.documents" :documentationId="documentation._id" :userAccessLevel="userAccessLevel"></DocumentList>
+    <DocumentList :documentList="documentation.documents" :documentationId="documentation._id" :userAccessLevel="userAccessLevel"
+                  style="margin-left: 10%; width: 80%; margin-right: 10%">
 
-    <q-item style="padding-left: 10%; padding-right: 10%">
+    </DocumentList>
+
+    <q-item style="padding-left: 20%; padding-right: 10%">
       <CommentList :comment-list="this.comments" :documentationId="this.documentation._id" :userAccessLevel="userAccessLevel"></CommentList>
     </q-item>
 

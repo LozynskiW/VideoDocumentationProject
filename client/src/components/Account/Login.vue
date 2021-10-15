@@ -4,16 +4,14 @@
 
       <q-card class="my-card" style="max-width: 400px">
 
-        <q-card-section class="bg-primary text-white q-pa-md row no-wrap items-center justify-around">
-          <q-avatar size="200px" font-size="120px" color="brown-4" text-color="white" icon="verified_user" />
+        <q-card-section class="bg-teal text-white q-pa-md row no-wrap items-center justify-around">
+          <q-avatar size="200px" font-size="120px" color="teal" text-color="white" icon="verified_user" />
         </q-card-section>
 
         <q-separator />
 
         <q-card-section>
           <q-form
-              @submit="onSubmit"
-              @reset="onReset"
               class="q-gutter-md"
               action="/api/login"
               method="POST"
@@ -42,7 +40,7 @@
             />
 
             <div>
-              <q-btn label="Submit" type="submit" color="primary"/>
+              <q-btn label="Login" type="submit" color="primary"/>
               <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
             </div>
           </q-form>

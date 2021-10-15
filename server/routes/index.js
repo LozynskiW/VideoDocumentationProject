@@ -17,49 +17,49 @@ router.get('/', function(req, res, next) {
 });
 // USER
 
-router.post(process.env.SERVER_PATH+'/register', UserController.registerNewUser)
-router.post(process.env.SERVER_PATH+'/login', UserController.login)
-router.delete(process.env.SERVER_PATH+'/logout', Auth.userAuth, Auth.logout)
+router.post('/api/register', UserController.registerNewUser)
+router.post('/api/login', UserController.login)
+router.delete('/api/logout', Auth.userAuth, Auth.logout)
 
 // PROTECTED
 
-router.delete(process.env.SERVER_PATH+'/user/delete',
+router.delete('/apiuser/delete',
     [
         Auth.userAuth,
         UserController.findUserById
     ], UserController.deleteUserById)
 
-router.put(process.env.SERVER_PATH+'/user/update',
+router.put('/api/user/update',
     [
         Auth.userAuth,
         UserController.findUserById
     ], UserController.updateUser)
 
-router.get(process.env.SERVER_PATH+'/user/find/email',
+router.get('/api/user/find/email',
     [
         Auth.userAuth,
         UserController.findUserByEmail
     ], UserController.getUserDetails)
 
-router.post(process.env.SERVER_PATH+'/user/accessLevel',
+router.post('/api/user/accessLevel',
     [
         Auth.userAuth,
         UserController.findUserById
     ], UserController.getUserAccessLevel)
 
-router.post(process.env.SERVER_PATH+'/user/find/name',
+router.post('/api/user/find/name',
     [
         Auth.userAuth,
         UserController.findUserByNameOrSurname
     ], UserController.getUserDetails)
 
-router.get(process.env.SERVER_PATH+'/user/details/:userId',
+router.get('/api/user/details/:userId',
     [
         Auth.userAuth,
         UserController.findUserById
     ], UserController.getUserDetails)
 
-router.get(process.env.SERVER_PATH+'/user/details',
+router.get('/api/user/details',
     [
         Auth.userAuth,
         UserController.findUserById
@@ -67,9 +67,9 @@ router.get(process.env.SERVER_PATH+'/user/details',
     UserController.getUserDetails)
 
 //Inaccessible
-router.get(process.env.SERVER_PATH+'/user/test/all', UserController.getAllUsers)
+router.get('/api/user/test/all', UserController.getAllUsers)
 
-router.put(process.env.SERVER_PATH+'/user/project/:projectId',
+router.put('/api/user/project/:projectId',
     [
         Auth.userAuth,
         ProjectController.getProjectById,
@@ -84,17 +84,17 @@ router.put(process.env.SERVER_PATH+'/user/project/:projectId',
 
 // DOCUMENT
 
-router.post(process.env.SERVER_PATH+'/document', DocumentController.addNewDocument)
+router.post('/api/document', DocumentController.addNewDocument)
 
-router.get(process.env.SERVER_PATH+'/document', DocumentController.findDocumentById, DocumentController.getDocumentDetails)
+router.get('/api/document', DocumentController.findDocumentById, DocumentController.getDocumentDetails)
 
 // DOCUMENTATION
 
-router.post(process.env.SERVER_PATH+'/documentation/newDocumentation',
+router.post('/api/documentation/newDocumentation',
     Auth.userAuth,
     DocumentationController.addNewDocumentation)
 
-router.post(process.env.SERVER_PATH+'/documentation/:documentationId/addDocument', [
+router.post('/api/documentation/:documentationId/addDocument', [
     // req.body.newDocument
     // req.param.documentationId
 
@@ -105,7 +105,7 @@ router.post(process.env.SERVER_PATH+'/documentation/:documentationId/addDocument
     ],
     DocumentationController.return2xxStatus)
 
-router.post(process.env.SERVER_PATH+'/documentation/:documentationId/pullDocument', [
+router.post('/api/documentation/:documentationId/pullDocument', [
         // req.body.newDocument
         // req.param.documentationId
 
@@ -119,7 +119,7 @@ router.post(process.env.SERVER_PATH+'/documentation/:documentationId/pullDocumen
 // req.body.newDocument
 // req.body.documentation
 
-router.put(process.env.SERVER_PATH+'/documentation/:documentationId/update', [
+router.put('/api/documentation/:documentationId/update', [
         // req.body.documentToUpdateId;
         // req.body.newDocumentId
 
@@ -128,13 +128,13 @@ router.put(process.env.SERVER_PATH+'/documentation/:documentationId/update', [
     ],
     DocumentController.updateDocumentForDocumentation)
 
-router.get(process.env.SERVER_PATH+'/documentation/:documentationId/documents', [
+router.get('/api/documentation/:documentationId/documents', [
         Auth.userAuth,
         DocumentationController.findDocumentationById
     ],
     DocumentationController.getAllDocumentsForDocumentation)
 
-router.get(process.env.SERVER_PATH+'/documentation/:documentationId', [
+router.get('/api/documentation/:documentationId', [
         Auth.userAuth,
         DocumentationController.findDocumentationById
     ],
@@ -143,14 +143,14 @@ router.get(process.env.SERVER_PATH+'/documentation/:documentationId', [
 // COMMENT
 
 //get all comments
-router.get(process.env.SERVER_PATH+'/documentation/:documentationId/comments',
+router.get('/api/documentation/:documentationId/comments',
     [
         Auth.userAuth,
         DocumentationController.findDocumentationById
     ], CommentController.getAllCommentsForDocumentation)
 
 //add new comment
-router.post(process.env.SERVER_PATH+'/documentation/:documentationId/comments',
+router.post('/api/documentation/:documentationId/comments',
     [
         Auth.userAuth,
         DocumentationController.findDocumentationById,
@@ -158,14 +158,14 @@ router.post(process.env.SERVER_PATH+'/documentation/:documentationId/comments',
     ], DocumentationController.bindCommentToDocumentation)
 
 //update comment
-router.put(process.env.SERVER_PATH+'/documentation/:documentationId/comments',
+router.put('/api/documentation/:documentationId/comments',
     [
         Auth.userAuth,
         CommentController.getCommentById
     ], CommentController.updateComment)
 
 //delete comment
-router.delete(process.env.SERVER_PATH+'/documentation/:documentationId/comments',
+router.delete('/api/documentation/:documentationId/comments',
     [
         Auth.userAuth,
         CommentController.getCommentById,
@@ -175,36 +175,36 @@ router.delete(process.env.SERVER_PATH+'/documentation/:documentationId/comments'
 
 // PROJECT
 
-router.get(process.env.SERVER_PATH+'/project/:projectId',
+router.get('/api/project/:projectId',
     [Auth.userAuth,
     ProjectController.getProjectById
     ],
     ProjectController.getProjectDetails)
 
-router.get(process.env.SERVER_PATH+'/projects/public',
+router.get('/api/projects/public',
 [Auth.userAuth,
     ],
     ProjectController.getAllPublicProjects)
 
-router.get(process.env.SERVER_PATH+'/user/projects/owned',
+router.get('/api/user/projects/owned',
     [Auth.userAuth,
         UserController.findUserById,
     ],
     ProjectController.getAllOwnedProjectsForUser)
 
-router.get(process.env.SERVER_PATH+'/user/projects/accessed',
+router.get('/api/user/projects/accessed',
     [Auth.userAuth,
         UserController.findUserById,
     ],
     ProjectController.getAllAccessedProjectsForUser)
 
-router.post(process.env.SERVER_PATH+'/project',
+router.post('/api/project',
     [Auth.userAuth,
         ProjectController.addNewProject
     ],
     UserController.addProjectForOwner)
 
-router.post(process.env.SERVER_PATH+'/project/:projectId/addUser',
+router.post('/api/project/:projectId/addUser',
     [Auth.userAuth,
         UserController.findUserById,
         ProjectController.getProjectById,
@@ -214,7 +214,7 @@ router.post(process.env.SERVER_PATH+'/project/:projectId/addUser',
     ],
     UserController.addProjectToAccessedProjects)
 
-router.post(process.env.SERVER_PATH+'/project/:projectId/deleteUser',
+router.post('/api/project/:projectId/deleteUser',
     [Auth.userAuth,
         UserController.findUserById,
         ProjectController.getProjectById,
@@ -224,7 +224,7 @@ router.post(process.env.SERVER_PATH+'/project/:projectId/deleteUser',
     ],
     UserController.pullProjectFromAccessedProjects)
 
-router.post(process.env.SERVER_PATH+'/project/:projectId/addDocumentation',
+router.post('/api/project/:projectId/addDocumentation',
     [Auth.userAuth,
         DocumentationController.addNewDocumentation,
         DocumentationController.findDocumentationById,
@@ -233,7 +233,7 @@ router.post(process.env.SERVER_PATH+'/project/:projectId/addDocumentation',
     ],
     ProjectController.addDocumentationToProject)
 
-router.post(process.env.SERVER_PATH+'/project/:projectId/pullDocumentation',
+router.post('/api/project/:projectId/pullDocumentation',
     [Auth.userAuth,
         DocumentationController.findDocumentationById,
         ProjectController.getProjectById,
@@ -241,7 +241,7 @@ router.post(process.env.SERVER_PATH+'/project/:projectId/pullDocumentation',
     ],
     ProjectController.pullDocumentationFromProject)
 
-router.put(process.env.SERVER_PATH+'/project/:projectId',
+router.put('/api/project/:projectId',
     [
         Auth.userAuth,
         ProjectController.getProjectById,
@@ -249,7 +249,7 @@ router.put(process.env.SERVER_PATH+'/project/:projectId',
     ],
     ProjectController.editProject)
 
-router.delete(process.env.SERVER_PATH+'/project/:projectId',
+router.delete('/api/project/:projectId',
     [Auth.userAuth,
         ProjectController.getProjectById
     ],

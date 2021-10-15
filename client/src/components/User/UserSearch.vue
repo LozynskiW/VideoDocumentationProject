@@ -36,7 +36,7 @@
 
 <script>
 import userService from "@/services/UserService";
-import UserSearchList from "@/components/UserSearchList";
+import UserSearchList from "@/components/User/UserSearchList";
 
 export default {
   name: "UserSearch",

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import UserSearch from "@/components/UserSearch";
+import UserSearch from "@/components/User/UserSearch";
 import userService from "@/services/UserService";
 export default {
   name: "UserList",

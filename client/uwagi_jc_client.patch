@@ -1,0 +1,16 @@
+Index: src/components/Login.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Login.vue b/src/components/Login.vue
+--- a/src/components/Login.vue	(revision c0592550ee4c2e2860055d66c26f29e1d38d5fb7)
++++ b/src/components/Login.vue	(revision c5f1b687ba6376e0e2eefd55d29a65e654be9034)
+@@ -11,6 +11,7 @@
+         <q-separator />
+ 
+         <q-card-section>
++          <!-- FIXME (jc) gdzie są funkcje onSubmit i onReset? -->
+           <q-form
+               @submit="onSubmit"
+               @reset="onReset"

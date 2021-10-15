@@ -1,36 +1,50 @@
 <template>
   <div class="q-pa-md" v-if="documentDetails">
 
-    <q-expansion-item>
+    <div v-if="userAccessLevel==='owner'">
 
-      <template v-slot:header>
-        <q-item class="text-white bg-grey-9" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
-          <q-item-section>
-            <q-avatar icon="attachment" color="teal" text-color="white" />
-            <q-item-label caption class="text-white">Document</q-item-label>
-          </q-item-section>
-          <q-item-section>
-            {{documentDetails.name}}
-          </q-item-section>
-          <q-item-section>
-            {{documentDetails.file}}
-          </q-item-section>
-          <q-item-section v-if="userAccessLevel==='owner'">
-            <q-btn class="bg-negative" style="position: absolute;right:10px;top:10px; width: 10%" @click="deleteDocumentById(documentDetails._id)">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="delete"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Delete
-                </q-item-section>
-              </q-item>
-            </q-btn>
-          </q-item-section>
-        </q-item>
-      </template>
+          <q-item class="text-white bg-grey-9" style="margin-bottom: 10px; width: 100%">
 
-    </q-expansion-item>
+            <q-item-section>
+              <q-avatar icon="attachment" color="teal" text-color="white" />
+              <q-item-label caption class="text-white">Document</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              {{documentDetails.name}}
+            </q-item-section>
+            <q-item-section>
+              {{documentDetails.file}}
+            </q-item-section>
+            <q-item-section>
+              <q-btn class="bg-negative" style="position: absolute;right:10px;top:10px; width: 10%" @click="deleteDocumentById(documentDetails._id)">
+                <q-item>
+                  <q-item-section>
+                    <q-icon name="delete"></q-icon>
+                  </q-item-section>
+                </q-item>
+              </q-btn>
+            </q-item-section>
+          </q-item>
+
+
+    </div>
+    <div v-else>
+      <q-item class="text-white bg-grey-9" style="margin-bottom: 10px; width: 100%">
+
+        <q-item-section>
+          <q-avatar icon="attachment" color="teal" text-color="white" />
+          <q-item-label caption class="text-white">Document</q-item-label>
+        </q-item-section>
+        <q-item-section>
+          {{documentDetails.name}}
+        </q-item-section>
+        <q-item-section>
+          {{documentDetails.file}}
+        </q-item-section>
+
+      </q-item>
+    </div>
+
 
   </div>
 </template>

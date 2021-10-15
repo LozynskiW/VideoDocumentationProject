@@ -23,17 +23,7 @@
         class="bg-grey-8"
     >
       <q-list dark style="margin-top: 150px">
-        <q-item-label header>Essential Links</q-item-label>
-
-        <q-item clickable tag="a" target="_blank" rel="noopener" href="http://quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>https://quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
+        <q-item-label header>Menu</q-item-label>
 
         <q-item clickable :to="'/'" tag="a">
           <q-item-section avatar>
@@ -45,15 +35,17 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable tag="a" :to="'/user/projects/public'">
-          <q-item-section avatar>
-            <q-icon name="video_library" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Public projects</q-item-label>
-            <q-item-label caption>Free projects with documentation</q-item-label>
-          </q-item-section>
-        </q-item>
+        <div v-if="user">
+          <q-item clickable tag="a" :to="'/user/projects/public'">
+            <q-item-section avatar>
+              <q-icon name="video_library" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Public projects</q-item-label>
+              <q-item-label caption>Free projects with documentation</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
 
         <q-separator></q-separator>
 
@@ -161,7 +153,6 @@
 <script>
 import { ref } from 'vue'
 import userService from "@/services/UserService";
-import router from "@/router";
 import BottomToolbar from "@/components/BottomToolbar";
 
 export default {
@@ -201,7 +192,7 @@ export default {
 
     async logout() {
       await userService.logout()
-      router.go(1)
+      await this.$router.push("/")
     }
   }
 

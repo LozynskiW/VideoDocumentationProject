@@ -1,14 +1,14 @@
 <template>
 
-  <div class="row bg-teal fit wrap justify-start items-start content-start" style="width: 100%; padding-left: 5%">
+  <div class="row fit wrap justify-start items-start content-start" style="width: 80%; padding-left: 5%">
 
-    <div class="column col-12 justify-start">
+    <div class="column col-10 justify-start">
 
       <div class="row-6">
 
         <q-list v-for="document in documentList" v-bind:key="document._id">
 
-          <document v-bind:documentId="document"></document>
+          <document v-bind:documentId="document" :user-access-level="userAccessLevel"></document>
 
         </q-list>
 

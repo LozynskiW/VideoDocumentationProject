@@ -1,8 +1,8 @@
 import {createRouter, createWebHistory} from "vue-router";
 import StartupPage from "@/components/StartupPage";
-import Account from "@/components/Account";
-import Project from "@/components/Project";
-import OwnedProjects from "@/components/OwnedProjects";
+import Account from "@/components/Account/Account";
+import Project from "@/components/Project/Project";
+import OwnedProjects from "@/components/Project/OwnedProjects";
 import AccessedProjects from "@/components/Project/AccessedProjects";
 import AddNewProject from "@/components/Project/AddNewProject";
 import PublicProjects from "@/components/Project/PublicProjects";

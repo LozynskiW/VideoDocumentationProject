@@ -3,14 +3,12 @@
   <div class="q-pa-md no-wrap items-center justify-around">
 
     <q-card style="max-width: 400px">
-      <q-card-section class="bg-primary text-white q-pa-md row no-wrap items-center justify-around">
-        <q-avatar size="200px" font-size="120px" color="brown-4" text-color="white" icon="person_add" />
+      <q-card-section class="bg-teal text-white q-pa-md row no-wrap items-center justify-around">
+        <q-avatar size="200px" font-size="120px" color="teal" text-color="white" icon="person_add" />
       </q-card-section>
 
       <q-card-section>
         <q-form
-            @submit="onSubmit"
-            @reset="onReset"
             class="q-gutter-md"
             action="/api/register"
             method="POST"
@@ -61,7 +59,7 @@
           />
 
           <div>
-            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Register" type="submit" color="primary"/>
             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
           </div>
         </q-form>

@@ -1,3 +1,6 @@
+//FIXME (jc) literowka w nazwie pliku (Registration.js)
+
+//FIXME (jc) modul 'dotenv' powinien byc wczytany tylko raz, najlepiej jak najwczesniej (np. w start.js)
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');

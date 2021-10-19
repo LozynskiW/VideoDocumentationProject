@@ -3,13 +3,13 @@
     <div class="column">
 
       <div class="row-6">
-        <q-item clickable class="bg-light-blue-10" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
+        <q-item clickable class="bg-grey-9 rounded-borders text-white text-h4 shadow-2" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
           <q-item-section avatar>
             <q-avatar>
-              <q-icon name="account_box"></q-icon>
+              <q-icon name="account_box" size="xl"></q-icon>
             </q-avatar>
           </q-item-section>
-          <q-item-section>Users:</q-item-section>
+          <q-item-section>List of users</q-item-section>
         </q-item>
         <q-separator></q-separator>
       </div>
@@ -47,7 +47,7 @@
       </div>
 
       <div class="row" v-if="userAccessLevel==='owner'">
-        <div class="column-3">
+        <div class="column-6">
           <UserSearch v-bind:usersWithAccess="users"></UserSearch>
         </div>
       </div>

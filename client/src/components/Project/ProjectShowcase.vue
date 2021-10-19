@@ -52,7 +52,7 @@
           </h4>
         </div>
 
-        <q-btn v-if="editMode===false && this.userAccessLevel==='owner'" class="bg-primary no-wrap items-center justify-around" @click="toggleEditProject" style="margin-right: 50px; position: absolute; right: 0">
+        <q-btn v-if="editMode===false && this.userAccessLevel==='owner'" class="bg-teal no-wrap items-center justify-around" @click="toggleEditProject" style="margin-right: 50px; position: absolute; right: 0">
           <q-item>
             <q-item-section>
               <q-icon name="edit"></q-icon>
@@ -194,58 +194,72 @@
 
         <div class="row">
 
-          <div v-if="project.usersWithAccess">
-            <q-item clickable @click="setMenuToUserWithAccessList">
-              <q-item-section avatar>
-                <q-icon name="person_add" />
-              </q-item-section>
+          <div v-if="this.project.isPublic === false">
+            <div v-if="project.usersWithAccess">
+              <q-item clickable @click="setMenuToUserWithAccessList">
+                <q-item-section avatar>
+                  <q-icon name="person_add" />
+                </q-item-section>
 
-              <q-item-section>Project accessed by: {{this.project.usersWithAccess.length}} users</q-item-section>
-            </q-item>
+                <q-item-section>Project accessed by: {{this.project.usersWithAccess.length}} users, click to grant access</q-item-section>
+              </q-item>
+            </div>
+
+            <div v-else>
+              <q-item clickable @click="this.setMenuToUserWithAccessList">
+                <q-item-section avatar>
+                  <q-icon name="signal_wifi_4_bar_lock" />
+                </q-item-section>
+
+                <q-item-section v-if="userAccessLevel==='owner'">No one has access to project, click to grant</q-item-section>
+                <q-item-section v-else>No one has access to project</q-item-section>
+              </q-item>
           </div>
 
-          <div v-else>
-            <q-item clickable @click="this.setMenuToUserWithAccessList">
-              <q-item-section avatar>
-                <q-icon name="signal_wifi_4_bar_lock" />
-              </q-item-section>
-
-              <q-item-section v-if="userAccessLevel==='owner'">No one has access to project, click to grant</q-item-section>
-              <q-item-section v-else>No one has access to project</q-item-section>
-            </q-item>
           </div>
-
         </div>
 
         <div class="row">
 
-          <div v-if="project.usersThatAccepted">
-            <q-item clickable @click="this.setMenuToUserThatAccepted">
+          <div v-if="this.project.isPublic === false">
+            <div v-if="project.usersThatAccepted">
+              <q-item clickable @click="this.setMenuToUserThatAccepted">
+                <q-item-section avatar>
+                  <q-icon name="smoking_rooms" />
+                </q-item-section>
+
+                <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users, click to check who</q-item-section>
+              </q-item>
+            </div>
+
+            <div v-else-if="project.usersThatAccepted.length === project.usersWithAccess.length">
+              <q-item clickable @click="this.setMenuToUserThatAccepted">
+                <q-item-section avatar>
+                  <q-icon name="check" />
+                </q-item-section>
+
+                <q-item-section>Project accepted</q-item-section>
+              </q-item>
+            </div>
+
+            <div v-else>
+              <q-item clickable @click="this.setMenuToUserWithAccessList">
+                <q-item-section avatar>
+                  <q-icon name="verified_user" />
+                </q-item-section>
+
+                <q-item-section>No one has accepted project</q-item-section>
+              </q-item>
+            </div>
+          </div>
+
+          <div v-else>
+            <q-item>
               <q-item-section avatar>
                 <q-icon name="smoking_rooms" />
               </q-item-section>
 
-              <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users, click to check who</q-item-section>
-            </q-item>
-          </div>
-
-          <div v-else-if="project.usersThatAccepted.length === project.usersWithAccess.length">
-            <q-item clickable @click="this.setMenuToUserThatAccepted">
-              <q-item-section avatar>
-                <q-icon name="check" />
-              </q-item-section>
-
-              <q-item-section>Project accepted</q-item-section>
-            </q-item>
-          </div>
-
-          <div v-else>
-            <q-item clickable @click="this.setMenuToUserWithAccessList">
-              <q-item-section avatar>
-                <q-icon name="verified_user" />
-              </q-item-section>
-
-              <q-item-section>No one has accepted project</q-item-section>
+              <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users</q-item-section>
             </q-item>
           </div>
 

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf" class="bg-grey-9 text-white">
     <q-header elevated class="bg-grey-6">
-      <q-toolbar>
+      <q-toolbar class="bg-amber-5">
         <q-btn
             flat
             dense
@@ -9,10 +9,11 @@
             @click="toggleLeftDrawer"
             aria-label="Menu"
             icon="menu"
+            color="black"
         />
 
-        <q-toolbar-title>
-          Video Documentation Archive by Wojciech Lozynski
+        <q-toolbar-title class="text-black">
+          Video Documentation Archive
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

@@ -41,6 +41,8 @@ export default {
 
       await userService.addUserToProject(userId, projectId)
 
+      this.$router.go(0)
+
     }
   }
 }

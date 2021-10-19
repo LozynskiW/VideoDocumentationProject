@@ -1,7 +1,7 @@
 <template>
-  <div class="fit wrap justify-start items-start content-start">
+  <div class="fit wrap justify-start items-start content-start" style="width: 100%">
 
-    <q-item class="bg-grey-8 text-white" style="margin-bottom: 10px; padding-right: 20px">
+    <q-item class="bg-grey-9 text-white" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
 
       <q-item-section avatar>
         <q-avatar>
@@ -10,13 +10,16 @@
       </q-item-section>
 
       <q-item-section>
-        <q-form>
+        <q-form class = "text-white">
           <q-input
               filled
+              rounded
+              label-color="white"
+              color="white"
               v-model="name"
               placeholder="Type"
-              label="Grant access to project for new user"
-              @click="findUsers(this.name)"
+              label="Grant access to project"
+              @update:model-value="findUsers(this.name)"
           />
         </q-form>
 
@@ -61,11 +64,6 @@ export default {
 
         this.users = await userService.getUsersByEmailOrName(nameOrEmail)
         this.users = JSON.parse(JSON.stringify(this.users))
-        console.log("this.users before map")
-        console.log(this.users.data)
-
-        console.log("this.usersWithAccess before map")
-        console.log(this.usersWithAccess)
 
         this.users = this.users.data.filter(u => {
           let usersWithAccessIdArray = this.usersWithAccess.map(uwa => uwa._id)
@@ -74,8 +72,7 @@ export default {
           }
         })
 
-        console.log("this.users after map")
-        console.log(this.users)
+        console.log("change")
 
       }
       //this.makeUserList()

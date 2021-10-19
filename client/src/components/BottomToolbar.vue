@@ -6,7 +6,7 @@
         </q-icon>
       </q-card-section>
       <q-card-section>
-        <h4>Video project documentation</h4>
+        <h4>Video Documentation Archive</h4>
       </q-card-section>
 
       <q-card-section class="items-center no-wrap justify-center">

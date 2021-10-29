@@ -181,33 +181,30 @@ export default {
       alert(this.$route.query.m)
     }
 
-    console.log(sessionStorage.getItem("userId"))
-
     /* FIXME (jc): ten link jest chroniony, wiec powinno wczesniej byc sprawdzenie czy jestesmy juz zalogowani,
          w innym razie na konsoli w przegladarce (np. Ctrl+Shift+I w Chrome) jest duzo bledow */
-      try{
-        this.user = await userService.getUserData();
-      } catch (e) {
+    try {
+      this.user = await userService.getUserData()
+    } catch (err) {
+      if (err.response.status === 403) {
+        console.log("Dasdas")
         this.user = null
       }
+    }
+    console.log(this.user)
 
-      if (this.user && !sessionStorage.getItem('userId')) {
-        this.user = JSON.parse(JSON.stringify(this.user))
-        sessionStorage.setItem('userId', this.user._id);
-      }
+    if (this.user && !sessionStorage.getItem('userId')) {
+      this.user = JSON.parse(JSON.stringify(this.user))
+      sessionStorage.setItem('userId', this.user._id);
+    }
 
   },
   methods: {
-    async getUserData() {
-      return  await userService.getUserData()
-    },
-
     logout() {
       userService.logout()
       this.$router.push("/")
       this.$router.go(0)
     }
   }
-
 }
 </script>

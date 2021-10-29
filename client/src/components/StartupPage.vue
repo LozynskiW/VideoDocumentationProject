@@ -107,7 +107,7 @@
 </style>
 
 <script>
-import userService from "@/services/UserService";
+//import userService from "@/services/UserService";
 export default {
   name: 'StartupPage',
   data () {
@@ -121,14 +121,6 @@ export default {
     if (this.$route.query.m) {
       this.message = this.$route.query.m
       alert(this.$route.query.m)
-    }
-
-    this.user = this.getUserData()
-
-  },
-  methods: {
-    getUserData() {
-      return userService.getUserData();
     }
   }
 

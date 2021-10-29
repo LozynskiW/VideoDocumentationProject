@@ -37,8 +37,11 @@ export class UserService {
 
         } catch (err) {
 
-            //console.log("error when getting data from server: /api/user/details")
-            //console.log(err);
+            if (err.response.status === 403) {
+                return user
+            }
+
+            console.log("Unable to get user data from server")
             return user
         }
     }

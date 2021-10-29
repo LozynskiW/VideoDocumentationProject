@@ -246,7 +246,7 @@ exports.login = async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        return res.status(500).redirect("api/");
+        return res.status(500).redirect("/");
 
     }
 

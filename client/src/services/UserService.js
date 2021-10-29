@@ -2,6 +2,27 @@ import axios from 'axios'
 
 export class UserService {
 
+    async login(email, password) {
+
+        try {
+            let user = await axios({
+                method: "POST",
+                url: '/api/login',
+                data: {
+                    email: email,
+                    password: password
+                }
+            })
+            console.log(user)
+            return user
+
+        } catch (err) {
+
+            console.log(err);
+            this.$router.push("/?e=unable to login")
+        }
+    }
+
     async getUserData() {
 
         let user = null;
@@ -15,12 +36,11 @@ export class UserService {
             return user.data
 
         } catch (err) {
-            console.log("error when getting data from server: /api/user/details")
-            console.log(err);
 
+            //console.log("error when getting data from server: /api/user/details")
+            //console.log(err);
+            return user
         }
-
-        return user
     }
 
     async getUserAccessLevel(projectId) {
@@ -119,6 +139,7 @@ export class UserService {
             .forEach(function(c) { document.cookie = c.replace(/^ +/, "")
                 .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
             });
+        sessionStorage.clear()
 
         await axios.delete("/api/logout")
 
@@ -160,6 +181,13 @@ export class UserService {
             data: {
                 update: userUpdate
             }
+        })
+    }
+
+    async deleteUserById() {
+        await axios({
+            method: "delete",
+            url: `/api/user/delete`
         })
     }
 }

@@ -171,7 +171,7 @@ export default {
   },
   data () {
     return {
-      user: undefined
+      user: null
     }
   },
   async mounted() {
@@ -181,19 +181,31 @@ export default {
       alert(this.$route.query.m)
     }
 
-    this.user = await userService.getUserData();
-    this.user = JSON.parse(JSON.stringify(this.user))
-    sessionStorage.setItem('userId', this.user._id);
+    console.log(sessionStorage.getItem("userId"))
+
+    /* FIXME (jc): ten link jest chroniony, wiec powinno wczesniej byc sprawdzenie czy jestesmy juz zalogowani,
+         w innym razie na konsoli w przegladarce (np. Ctrl+Shift+I w Chrome) jest duzo bledow */
+      try{
+        this.user = await userService.getUserData();
+      } catch (e) {
+        this.user = null
+      }
+
+      if (this.user && !sessionStorage.getItem('userId')) {
+        this.user = JSON.parse(JSON.stringify(this.user))
+        sessionStorage.setItem('userId', this.user._id);
+      }
 
   },
   methods: {
     async getUserData() {
-      return await userService.getUserData();
+      return  await userService.getUserData()
     },
 
-    async logout() {
-      await userService.logout()
-      await this.$router.push("/")
+    logout() {
+      userService.logout()
+      this.$router.push("/")
+      this.$router.go(0)
     }
   }
 

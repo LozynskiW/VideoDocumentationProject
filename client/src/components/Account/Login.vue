@@ -15,6 +15,7 @@
               class="q-gutter-md"
               action="/api/login"
               method="POST"
+
           >
             <q-input
                 filled
@@ -52,6 +53,8 @@
 </template>
 
 <script>
+import userService from "@/services/UserService";
+
 export default {
   name: "Login",
   data () {
@@ -60,6 +63,24 @@ export default {
       email: ""
     }
   },
+
+  methods: {
+    async login() {
+      let user = null
+      try {
+        user = userService.login(this.email, this.password)
+      }
+      catch (err) {
+        console.log(err)
+      }
+      //user = userService.getUserData()
+      if (user !== null) {
+        console.log(user)
+        user = JSON.parse(JSON.stringify(user))
+        sessionStorage.setItem('userId', user._id);
+      }
+    }
+  }
 }
 
 </script>

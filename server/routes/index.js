@@ -23,7 +23,7 @@ router.delete('/api/logout', Auth.userAuth, Auth.logout)
 
 // PROTECTED
 
-router.delete('/apiuser/delete',
+router.delete('/api/user/delete',
     [
         Auth.userAuth,
         UserController.findUserById

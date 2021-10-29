@@ -204,10 +204,10 @@ exports.updateUser = async (req, res) => {
     }
 }
 
-exports.deleteUserById = (req, res) => {
+exports.deleteUserById = async (req, res) => {
 
     if (req.body.user._id) {
-        User.findByIdAndDelete(req.body.user._id)
+        await User.findByIdAndDelete(req.body.user._id)
         return res.status(204).json("User deleted")
     }
 
@@ -219,11 +219,11 @@ exports.registerNewUser = async (req, res) => {
         console.log("No data sent in request from client on path: /register")
         return res.status(500).json("Server problem")
     }
-    console.log(req.body)
+
     let newUserData = req.body;
 
     if (await User.findOne({email: newUserData.email}) !== null ) {
-        return res.status(400).json("Email already taken")
+        return res.status(400).redirect("/api/account?e="+encodeURIComponent('Email already taken'))
     }
 
     try {
@@ -246,7 +246,7 @@ exports.login = async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        return res.status(500).json("Server error due to login");
+        return res.status(500).redirect("api/");
 
     }
 
@@ -256,7 +256,7 @@ exports.login = async (req, res) => {
 
         req.body.user = accessToken
         res.cookie("access-token", accessToken, {httpOnly: true})
-        return res.status(200).redirect('/');
+        return res.status(200).redirect("/");
 
     } else {
         return res.status(400).json("Login or password are incorrect");

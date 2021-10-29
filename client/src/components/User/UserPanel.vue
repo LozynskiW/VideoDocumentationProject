@@ -242,7 +242,35 @@
 
           </q-card>
         </div>
+      </div>
 
+      <q-space color="negative"/>
+
+      <div class="row">
+
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+          <q-expansion-item popup
+                            expand-separator
+                            icon="delete"
+                            label="Delete Account"
+                            class="bg-negative"
+                            style="position:absolute; right: 40px; bottom: 25%; width: 10%">
+            <q-separator></q-separator>
+            <q-card class="bg-grey-9">
+              <q-card-section>
+                Are You sure?
+              </q-card-section>
+              <q-card-actions>
+                <q-btn flat class="bg-negative"
+                       @click = "deleteUser">
+                  Delete Account
+                </q-btn>
+              </q-card-actions>
+            </q-card>
+          </q-expansion-item>
+        </div>
 
       </div>
 
@@ -291,6 +319,13 @@ export default {
 
     async editUser() {
       await userService.updateUser(this.userName, this.userSurname, this.userEmail, this.userAvatar)
+      this.$router.go(0)
+    },
+
+    async deleteUser(){
+      userService.logout()
+      userService.deleteUserById()
+      this.$router.push("/")
       this.$router.go(0)
     }
   }

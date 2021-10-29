@@ -1,0 +1,35 @@
+Index: client/src/App.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/client/src/App.vue b/client/src/App.vue
+--- a/client/src/App.vue	(revision bfff1e40fab5d56e723136ed097ef5fdd585911d)
++++ b/client/src/App.vue	(revision 6029adaee2f3427a33821cf36ab53ef1ed1545a9)
+@@ -181,7 +181,10 @@
+       alert(this.$route.query.m)
+     }
+ 
++    /* FIXME (jc): ten link jest chroniony, wiec powinno wczesniej byc sprawdzenie czy jestesmy juz zalogowani,
++         w innym razie na konsoli w przegladarce (np. Ctrl+Shift+I w Chrome) jest duzo bledow */
+     this.user = await userService.getUserData();
++    // FIXME (jc) to kopiowanie raczej nie jest potrzebne
+     this.user = JSON.parse(JSON.stringify(this.user))
+     sessionStorage.setItem('userId', this.user._id);
+ 
+Index: server/routes/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/server/routes/index.js b/server/routes/index.js
+--- a/server/routes/index.js	(revision bfff1e40fab5d56e723136ed097ef5fdd585911d)
++++ b/server/routes/index.js	(revision 6029adaee2f3427a33821cf36ab53ef1ed1545a9)
+@@ -23,6 +23,7 @@
+ 
+ // PROTECTED
+ 
++// FIXME (jc) prawdopodobnie blad w URL?
+ router.delete('/apiuser/delete',
+     [
+         Auth.userAuth,

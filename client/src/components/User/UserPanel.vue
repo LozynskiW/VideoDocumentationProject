@@ -2,6 +2,46 @@
   <div>
     <div v-if="user" class="col-3 q-pa-md">
       <div class="row" style="min-height: 200px; max-height: 300px">
+
+        <div v-if="editMode===true" style="position: absolute; right: 0; width: 15%; z-index: 1">
+
+          <q-btn class="bg-secondary no-wrap items-center justify-around" @click="editUser">
+            <q-item>
+              <q-item-section>
+                <q-icon name="send"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                Save
+              </q-item-section>
+            </q-item>
+          </q-btn>
+
+          <q-btn class="bg-warning no-wrap items-center justify-around" @click="uneditUser">
+            <q-item>
+              <q-item-section>
+                <q-icon name="close"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                Cancel
+              </q-item-section>
+            </q-item>
+          </q-btn>
+
+        </div>
+
+        <div v-else style="position: absolute; right: 0; width: 10%; z-index: 1">
+          <q-btn class="bg-primary" @click="toggleEditUser">
+            <q-item>
+              <q-item-section>
+                <q-icon name="edit"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                Edit
+              </q-item-section>
+            </q-item>
+          </q-btn>
+        </div>
+
         <q-img src="https://media.istockphoto.com/videos/low-poly-dark-background-video-id850926774?s=640x640" style="min-height: 200px; max-height: 300px">
 
           <div class="absolute-bottom bg-transparent">
@@ -17,45 +57,6 @@
               </q-item-section>
             </q-item>
 
-          </div>
-
-          <div v-if="editMode===true">
-
-            <q-btn class="bg-secondary no-wrap items-center justify-around" @click="editUser" style="position:fixed; right: 40px; width: 10%">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="send"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Save
-                </q-item-section>
-              </q-item>
-            </q-btn>
-
-            <q-btn class="bg-warning no-wrap items-center justify-around" @click="uneditUser" style="position:fixed; right: 40px; top: 160px; width: 10%">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="close"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Cancel
-                </q-item-section>
-              </q-item>
-            </q-btn>
-
-          </div>
-
-          <div v-else>
-            <q-btn class="bg-primary" @click="toggleEditUser" style="position:fixed; right: 40px; width: 10%">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="edit"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Edit
-                </q-item-section>
-              </q-item>
-            </q-btn>
           </div>
 
         </q-img>

@@ -1,6 +1,6 @@
 <template>
 
-  <div class="row bg-orange-14 fit wrap justify-start items-start content-start" style="width: 100%; padding-left: 10%">
+  <div class="row fit wrap justify-start items-start content-start" style="width: 100%; padding-left: 10%">
 
     <div class="column col-12 justify-start">
 
@@ -23,18 +23,21 @@
             label="Add your comment about document"
         >
           <q-item>
-            <q-form style="width: 50%">
+            <q-form style="width: 80%">
               <q-input
                   filled
                   v-model="content"
                   placeholder="Type"
-                  label="Your comment"
+                  type="textarea"
+                  label-color="white"
+                  input-style="color: white"
+                  color="white"
+                  label="Type here..."
               />
             </q-form>
 
             <q-item-section clicable @click="addNewComment(this.content)" style="padding-left: 20px; width: 10%">
-              <q-btn class="bg-light-blue-10" style="width: 20%">
-                <q-icon avatar name="send"></q-icon>
+              <q-btn round size="xl" icon="send" class="bg-light-blue-10" style="width: 20%">
               </q-btn>
 
             </q-item-section>

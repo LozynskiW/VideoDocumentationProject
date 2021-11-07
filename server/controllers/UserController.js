@@ -134,8 +134,7 @@ exports.addProjectForOwner = async (req, res) => {
         await User.findByIdAndUpdate(req.user._id,
             { $push: { ownedProjects: req.body.newProject._id} },
             {useFindAndModify: true })
-        // FIXME (jc) tutaj chyba brakuje /api 
-        return res.status(201).redirect('/api/user/projects/owned/'+req.body.newProject._id);
+        return res.status(201).redirect('/api/project/'+req.body.newProject._id);
     } catch (err) {
         return res.status(500).json({err: "Error due to updating documentation"})
     }

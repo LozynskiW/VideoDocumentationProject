@@ -1,63 +1,53 @@
 <template>
-  <div class="row bg-primary fit wrap justify-start items-start content-start">
+  <q-card flat bordered class="bg-grey-9" style="left: 10%; width: 80%">
+    <q-card-section>
+      <h3>
+        Documentation
+      </h3>
+      <q-separator dark />
+    </q-card-section>
 
-    <div class="column col-10 justify-start">
+    <q-card-section>
 
-      <div class="row-1">
+      <q-list v-for="documentation in documentationList" v-bind:key="documentation._id">
 
-        <q-item clickable class="bg-light-blue-10" style="margin-bottom: 10px">
-          <q-item-section avatar>
-            <q-avatar>
-              <q-icon name="dehaze"></q-icon>
-            </q-avatar>
+        <documentation v-bind:documentation="documentation" :userAccessLevel="userAccessLevel"></documentation>
+        <q-separator dark/>
+      </q-list>
+
+    </q-card-section>
+
+    <div class="row-2" v-if="userAccessLevel==='owner'">
+
+      <q-expansion-item
+          expand-separator
+          icon="add_box"
+          label="Add new Documentation"
+      >
+        <q-item>
+          <q-form style="width: 80%">
+            <q-input
+                filled
+                v-model="name"
+                placeholder="Type"
+                label-color="white"
+                input-style="color: white"
+                color="white"
+                label="Name of documentation"
+            />
+          </q-form>
+          <q-item-section clicable @click="addNewDocumentation(this.name)" style="padding-left: 20px; width: 10%">
+            <q-btn class="bg-primary" flat round size="lg" style="width: 20%">
+              <q-icon avatar name="send"></q-icon>
+            </q-btn>
           </q-item-section>
-          <q-item-section>Documentation for the project</q-item-section>
-          <q-item-section>Number of documentation: {{documentationList.length}}</q-item-section>
         </q-item>
 
-        <q-separator></q-separator>
-      </div>
-
-      <div class="row-6">
-
-        <q-list v-for="documentation in documentationList" v-bind:key="documentation._id">
-
-          <documentation v-bind:documentation="documentation" :userAccessLevel="userAccessLevel"></documentation>
-
-        </q-list>
-
-      </div>
-
-      <div class="row-1" v-if="userAccessLevel==='owner'">
-
-        <q-expansion-item
-            expand-separator
-            icon="add_box"
-            label="Add new Documentation"
-        >
-          <q-item>
-            <q-form style="width: 50%">
-              <q-input
-                  filled
-                  v-model="name"
-                  placeholder="Type"
-                  label="Name of documentation"
-              />
-            </q-form>
-            <q-item-section clicable @click="addNewDocumentation(this.name)" style="padding-left: 20px; width: 10%">
-              <q-btn class="bg-light-blue-10" style="width: 20%">
-                <q-icon avatar name="send"></q-icon>
-              </q-btn>
-            </q-item-section>
-          </q-item>
-
-        </q-expansion-item>
-
-      </div>
+      </q-expansion-item>
 
     </div>
 
-  </div>
+  </q-card>
 </template>
 
 <script>

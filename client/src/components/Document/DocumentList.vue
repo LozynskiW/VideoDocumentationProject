@@ -22,23 +22,30 @@
             label="Add new document"
         >
           <q-item>
-            <q-form style="width: 50%">
+            <q-form style="width: 90%">
               <q-input
                   filled
                   v-model="name"
-                  placeholder="Type"
-                  label="Name of documentation"
+                  input-style="color:white"
+                  label-color="white"
+                  label="Name/title"
+                  lazy-rules="true"
+                  :rules="[ val => val && val.length > 3 || 'Must be at least 4 characters long']"
               />
               <q-input
                   filled
                   v-model="url"
-                  placeholder="Type"
-                  label="url with file to attach"
+                  type="url"
+                  input-style="color:white"
+                  label-color="white"
+                  label="URL to file"
+                  lazy-rules="true"
+                  :rules="[ val => val && isValidURL(val) || 'Must be url']"
               />
             </q-form>
 
             <q-item-section clicable @click="addNewDocument(this.name, this.url)" style="padding-left: 20px; width: 10%">
-              <q-btn class="bg-light-blue-10" style="width: 20%">
+              <q-btn  round flat size="md" class="bg-light-blue-10" style="width: 20%">
                 <q-icon avatar name="attach_file"></q-icon>
               </q-btn>
 
@@ -76,6 +83,16 @@ export default {
     async addNewDocument(name, url) {
       await documentService.addNewDocument(this.documentationId, name, url)
       this.$router.go(0)
+    },
+
+    isValidURL(str) {
+      var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+      return !!pattern.test(str);
     }
   }
 }

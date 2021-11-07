@@ -8,26 +8,29 @@
       </template>
 
       <template v-slot:content>
-        <div class="row bg-blue-grey-3" v-if="user" style="width: 100%; padding: 30px">
-
-          <div class="col-3 q-pa-md">
-            <q-card dark bordered class="bg-grey-9">
-
-              <q-item-label class="text-yellow-5" style="padding: 10px; position: absolute; bottom: 1px;right: 0">
-                OWNER
-              </q-item-label>
-
-              <q-card-section horizontal style="padding: 20px">
-                <q-avatar rounded>
+        <div class="row bg-primary" v-if="user" style="width: 100%; padding-bottom: 30px">
+          <div class="col-12">
+            <q-item class="bg-blue-9">
+              <q-item-section avatar>
+                <q-avatar size="100px">
                   <img :src="`${this.user.avatar}`" alt="no image">
                 </q-avatar>
-                <q-item>
-                  {{this.user.firstName+" "+this.user.lastName}}
-                  {{this.user.email}}
-                </q-item>
-              </q-card-section>
+              </q-item-section>
 
-            </q-card>
+              <q-item-section>
+                <q-item-label style="font-size: xx-large">{{this.user.firstName+" "+this.user.lastName}}</q-item-label>
+                <q-item-label caption class="text-yellow-5">
+                  {{this.user.email}}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+        </div>
+
+        </div>
+
+        <div class="row bg-primary" v-if="user" style="width: 100%; padding: 30px">
+
+          <div class="col-3 q-pa-md">
 
             <q-item>
               <q-avatar class="q-pa-md row no-wrap items-center justify-around" size="300px" font-size="52px" color="transparent" rounded>
@@ -42,10 +45,11 @@
             <div class="row" style="padding: 30px; width: 100%">
               <q-input
                   outlined
+                  standout="bg-blue text-white"
                   v-model="projectName"
                   label="Project name"
                   label-color="white"
-                  bg-color="teal"
+                  input-style="color: white"
                   color="white"
                   lazy-rules="true"
                   :rules="[ val => val && val.length > 0 || 'Pool can not be blank']"
@@ -59,33 +63,31 @@
 
             <div class="column q-pa-md justify-around">
 
+              <div class="row items-center content-center justify-center" style="padding: 5%">
+
+                <q-card class="bg-primary">
+                  <q-card-section>
+                    <h4>Accessibility</h4>
+                  </q-card-section>
+                  <q-card-section>
+                    <q-btn-toggle
+                        v-model="this.isPublic"
+                        no-caps
+                        rounded
+                        unelevated
+                        toggle-color="secondary"
+                        color="primary"
+                        text-color="white"
+                        :options="[
+                        {label: 'Protected', value: false},
+                        {label: 'Public', value: true},
+                      ]"
+                    />
+                  </q-card-section>
+                </q-card>
+              </div>
+
               <div class="row">
-
-                <q-item>
-                  <q-item-section>
-                    <q-radio v-model="isPublic" val="true"></q-radio>
-                  </q-item-section>
-
-                  <q-item-section avatar style="padding: 20px">
-                    <q-icon name="share" />
-                  </q-item-section>
-
-                  <q-item-section>Public project</q-item-section>
-                </q-item>
-
-                <q-item>
-                  <q-item>
-                    <q-item-section>
-                      <q-radio id="isNotPublicRadio" v-model="isPublic" val="false"></q-radio>
-                    </q-item-section>
-
-                    <q-item-section avatar style="padding: 20px">
-                      <q-icon name="verified_user" />
-                    </q-item-section>
-
-                    <q-item-section>Protected project</q-item-section>
-                  </q-item>
-                </q-item>
                 <q-btn class="bg-positive" @click="this.addNewProject()" style="width: 100%; padding: 20px">
                   Save project
                 </q-btn>
@@ -95,13 +97,13 @@
           </div>
           <div class="col" style="max-width: 100%; max-height: 100%">
             <q-input
-                filled
-                standout="bg-teal-4 text-white"
+                outlined
+                standout="bg-blue text-white"
                 v-model="projectDesc"
                 placeholder="Type here..."
                 label="Project description"
                 label-color="white"
-                bg-color="teal"
+                input-style="color: white"
                 type="textarea"
                 lazy-rules="true"
                 :rules="[ val => val && val.length > 0 || 'Pool can not be blank']"
@@ -137,8 +139,8 @@ export default {
 
   },
   methods: {
-    addNewProject() {
-      projectService.saveNewProject(this.projectName, this.projectDesc, this.isPublic)
+    async addNewProject() {
+      await projectService.saveNewProject(this.projectName, this.projectDesc, this.isPublic)
       this.$router.push("/user/projects/owned")
     }
   }

@@ -1,63 +1,76 @@
 <template>
   <div v-if="this.comment">
     <q-card dark bordered class="text-white bg-grey-9" style="padding: 20px">
+
+      <q-item>
+        <q-item-section avatar style="width: 10%">
+          <q-avatar>
+            <img id="userAvatar" :src="`${comment.user.avatar}`" alt="no image">
+          </q-avatar>
+        </q-item-section>
+        <q-item-section top style="width: 10%">
+          <q-item-label class="text-weight-medium">{{comment.user.firstName+" "+comment.user.lastName}}</q-item-label>
+          <q-item-label caption class="text-grey-5">{{comment.user.email}}</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-separator dark inset/>
+
       <q-card-section>
-        <q-item>
-          <q-item-section avatar style="width: 10%">
-            <q-avatar>
-              <img id="userAvatar" :src="`${comment.user.avatar}`" alt="no image">
-            </q-avatar>
-          </q-item-section>
-          <q-item-section top style="width: 10%">
-            <q-item-label class="text-weight-medium">{{comment.user.firstName+" "+comment.user.lastName}}</q-item-label>
-            <q-item-label caption class="text-grey-5">{{comment.user.email}}</q-item-label>
-          </q-item-section>
           <q-item-section>
-            {{comment.content}}
             <div v-if="mode==='edit'">
 
-              <q-form class="bg-orange-14" style="width: 50%">
+              <q-form style="width: 100%; padding-bottom: 1%">
                 <q-input
                     filled
                     v-model="editedContent"
                     placeholder="Type"
+                    type="textarea"
+                    label-color="white"
+                    input-style="color: white"
+                    color="white"
                     label="Edit your comment"
                 />
               </q-form>
-              <q-btn class="bg-primary" style="width: 100px" @click="editComment(comment._id)">
-                <q-icon name="edit"></q-icon>
+              <q-separator></q-separator>
+              <q-btn flat rounded class="bg-teal" style="width: 100px" @click="editComment(comment._id)">
                 <q-item-label>Save changes</q-item-label>
               </q-btn>
+              <q-btn flat rounded style="width: 100px" @click="untoggleEditComment">
+                <q-item-label>Cancel</q-item-label>
+              </q-btn>
+            </div>
+
+            <div v-else>
+              {{comment.content}}
             </div>
           </q-item-section>
-          <q-item-section style="position: absolute;right:0;top:0">
-            <q-btn class="bg-primary" @click="toogleEditComment">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="edit"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Edit
-                </q-item-section>
-              </q-item>
-            </q-btn>
-            <q-btn class="bg-negative" @click="deleteCommentById(comment._id)">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="delete"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Delete
-                </q-item-section>
-              </q-item>
-            </q-btn>
-          </q-item-section>
-
-        </q-item>
       </q-card-section>
 
       <q-separator dark inset></q-separator>
-      <q-item-label caption class="text-grey-5" style="padding-top: 10px; padding-left: 30px">{{comment.date}}</q-item-label>
+
+      <q-item>
+
+        <q-item-section>
+          <q-item-label caption class="text-grey-5" style="padding-top: 10px; padding-left: 30px">{{this.commentDateTime}}</q-item-label>
+        </q-item-section>
+
+        <q-btn flat
+               round
+               icon="edit"
+               size="md"
+               @click="toggleEditComment">
+        </q-btn>
+
+        <q-btn flat
+               round
+               icon="delete"
+               size="md"
+               @click="deleteCommentById(comment._id)">
+
+        </q-btn>
+
+      </q-item>
 
     </q-card>
   </div>
@@ -73,11 +86,15 @@ export default {
     documentationId: String
   },
   mounted() {
+    this.commentDateTime = this.comment.date.toLocaleString()
+    this.commentDateTime = this.commentDateTime.split("T")[0]+" "+ this.commentDateTime.split("T")[1].split(".")[0]
+    this.editedContent = this.comment.content
   },
   data() {
     return {
       mode: "show",
-      editedContent: ""
+      editedContent: "",
+      commentDateTime: "",
     }
   },
   methods: {
@@ -87,8 +104,12 @@ export default {
       this.$router.go(0)
     },
 
-    async toogleEditComment() {
+    toggleEditComment() {
       this.mode = "edit"
+    },
+
+    untoggleEditComment() {
+      this.mode = "show"
     },
 
     async editComment(commentId) {

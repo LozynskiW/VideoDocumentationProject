@@ -1,37 +1,55 @@
 <template>
-  <q-expansion-item>
+  <q-expansion-item style="width: 100%">
     <template v-slot:header>
-      <q-item clickable class="bg-light-blue-10" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
+
+      <q-item style="margin-bottom: 10px; width: 100%">
+
         <q-item-section avatar>
           <q-avatar>
-            <q-icon name="attachment"></q-icon>
+            <q-icon name="art_track" class="text-amber" size="lg"></q-icon>
           </q-avatar>
         </q-item-section>
-        <q-item-section>
+
+        <q-item-section style="min-width: 60%">
           {{documentation.name}}
         </q-item-section>
         <q-item-section>
-          Number of documents: {{documentation.documents.length}}
+          Documents: {{documentation.documents.length}}
         </q-item-section>
         <q-item-section>
-          Number of comments: {{documentation.comments.length}}
+          Comments: {{documentation.comments.length}}
         </q-item-section>
         <q-item-section v-if="userAccessLevel==='owner'">
-          <q-btn class="bg-negative" style="position: absolute;right:10px;top:10px; width: 10%" @click="deleteDocumentation">
-            <q-icon name="delete"></q-icon>
+
+          <q-btn flat
+                 rounded
+                 icon="delete"
+                 size="md"
+                 style="position: absolute;right:10px;top:10px; width: 10%"
+                 @click="deleteDocumentation">
           </q-btn>
+
         </q-item-section>
       </q-item>
+      <q-separator/>
     </template>
 
-    <DocumentList :documentList="documentation.documents" :documentationId="documentation._id" :userAccessLevel="userAccessLevel"
-                  style="margin-left: 10%; width: 80%; margin-right: 10%">
+    <q-card class="bg-grey-9">
+      <q-card-section horizontal>
+        <q-card-section class="col-6">
+          <DocumentList :documentList="documentation.documents" :documentationId="documentation._id" :userAccessLevel="userAccessLevel"
+                        style="margin-left: 10%; width: 100%">
 
-    </DocumentList>
+          </DocumentList>
+        </q-card-section>
 
-    <q-item style="padding-left: 20%; padding-right: 10%">
-      <CommentList :comment-list="this.comments" :documentationId="this.documentation._id" :userAccessLevel="userAccessLevel"></CommentList>
-    </q-item>
+        <q-separator vertical />
+
+        <q-card-section class="col-6">
+          <CommentList :comment-list="this.comments" :documentationId="this.documentation._id" :userAccessLevel="userAccessLevel"></CommentList>
+        </q-card-section>
+      </q-card-section>
+    </q-card>
 
   </q-expansion-item>
 </template>

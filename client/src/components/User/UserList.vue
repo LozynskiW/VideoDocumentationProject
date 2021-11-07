@@ -1,31 +1,33 @@
 <template>
-  <div class="items-start justify-center" style="float: top; padding-top: 40px">
+  <q-card class="bg-grey-9" style="min-height: 300px; min-width: 300px; max-width: 400px;position: absolute; z-index: 1">
+    <q-card-section>
+      <q-item class="bg-grey-9 rounded-borders text-white text-h4" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
+        <q-item-section avatar>
+          <q-avatar>
+            <q-icon name="account_box" size="xl"></q-icon>
+          </q-avatar>
+        </q-item-section>
+        <q-item-section>{{this.tableHead}}</q-item-section>
+      </q-item>
+      <q-separator horizontal/>
+    </q-card-section>
     <div class="column">
 
-      <div class="row-6">
-        <q-item clickable class="bg-grey-9 rounded-borders text-white text-h4 shadow-2" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
-          <q-item-section avatar>
-            <q-avatar>
-              <q-icon name="account_box" size="xl"></q-icon>
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>List of users</q-item-section>
-        </q-item>
-        <q-separator></q-separator>
+      <div class="row">
       </div>
 
       <div class="row-6">
 
-          <q-list v-for="user in users" v-bind:key="user._id">
+          <q-list v-for="user in users" v-bind:key="user._id" style="top:0">
             <q-expansion-item>
               <template v-slot:header>
-                <q-item clickable class="bg-light-blue-10" style="margin-bottom: 10px; padding-right: 20px; width: 100%">
+                <q-item clickable style="margin-bottom: 10px; padding-right: 20px; width: 100%">
                   <q-item-section avatar>
                     <q-avatar>
                       <img :src="`${user.avatar}`" alt="no image">
                     </q-avatar>
                   </q-item-section>
-                  <q-item-section>
+                  <q-item-section style="font-size: small">
                     {{user.firstName+" "+user.lastName}}
                   </q-item-section>
                   <q-item-section style="font-size: small">
@@ -54,7 +56,7 @@
 
     </div>
 
-  </div>
+  </q-card>
 </template>
 
 <script>
@@ -66,6 +68,7 @@ export default {
   props: {
     users: Array,
     userAccessLevel: String,
+    tableHead: String
   },
   mounted() {
   },

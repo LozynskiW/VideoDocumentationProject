@@ -1,285 +1,280 @@
 <template>
-  <div v-if="project" class="row bg-primary fit wrap justify-start items-start content-start" style="height: 350px; width: 100%">
+  <div v-if="project" class="row bg-grey-9" style="max-height: 400px; width: 100%; padding-bottom: 5%; margin-bottom: 5%">
 
-    <div class="col-3 q-pa-md">
-      <q-card dark bordered class="bg-grey-9">
+    <div class="col-9">
+    <q-card class="bg-primary" flat bordered style="min-height: 300px; min-width: 70%; max-width: 80%; left: 10%">
 
-        <q-item-label class="text-yellow-5" style="padding: 10px; position: absolute; bottom: 1px;right: 0">
-          OWNER
-        </q-item-label>
-
-        <q-card-section horizontal style="padding: 20px">
-          <q-avatar rounded>
+      <q-item class="bg-blue-9">
+        <q-item-section avatar>
+          <q-avatar size="100px">
             <img :src="`${project.owner.avatar}`" alt="no image">
           </q-avatar>
-          <q-item>
-            {{project.owner.firstName+" "+project.owner.lastName}}
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label style="font-size: xx-large">{{project.owner.firstName+" "+project.owner.lastName}}</q-item-label>
+          <q-item-label caption class="text-yellow-5">
             {{project.owner.email}}
+          </q-item-label>
+        </q-item-section>
+
+        <div v-if="this.userAccessLevel==='owner'">
+          <q-btn flat
+                 rounded
+                 icon="edit"
+                 size="md"
+                 style="position: absolute;right:10px;top:10px; width: 10%"
+                 @click="toggleEditProject"
+          />
+        </div>
+
+        <div v-else>
+          <q-btn flat
+                 round
+                 icon="check"
+                 size="md"
+                 color="white"
+                 label="Accept"
+                 style="position: absolute;right:10px;top:10px; width: 10%"
+                 @click="acceptProject"
+                 v-if="!this.project.usersThatAccepted.map(e => e._id).includes(this.userId)"
+          />
+
+          <q-btn flat
+                 round
+                 icon="check"
+                 size="md"
+                 color="positive"
+                 label="Accepted"
+                 style="position: absolute;right:10px;top:10px; width: 10%"
+                 @click="unacceptProject"
+                 v-else
+          ><q-tooltip class="bg-secondary">Click to cancel</q-tooltip></q-btn>
+        </div>
+      </q-item>
+
+      <q-separator />
+
+      <q-card-section horizontal>
+        <q-card-section style="min-width: 50%">
+
+          <q-item v-if="this.editMode === false">
+
+            <q-item-section>
+              <q-item-label style="font-size: large" class="text-yellow-5">{{project.name}}</q-item-label>
+              <q-item-label class="text-white" caption>
+                {{project.description}}
+              </q-item-label>
+            </q-item-section>
+
           </q-item>
+
+          <q-item v-else>
+
+            <q-item-section>
+              <q-input
+                  outlined
+                  standout="bg-blue text-white"
+                  v-model="projectName"
+                  label="Project name"
+                  label-color="white"
+                  input-style="color: white"
+                  color="white"
+                  lazy-rules="true"
+                  :rules="[ val => val && val.length > 0 || 'Pool can not be blank']"
+                  style="width: 100%"
+              >
+              </q-input>
+
+              <q-input
+                  outlined
+                  standout="bg-blue text-white"
+                  type="textarea"
+                  v-model="projectDesc"
+                  label="Project description"
+                  label-color="white"
+                  input-style="color: white"
+                  color="white"
+                  lazy-rules="true"
+                  :rules="[ val => val && val.length > 0 || 'Pool can not be blank']"
+                  style="width: 100%"
+              >
+              </q-input>
+
+            </q-item-section>
+
+          </q-item>
+
         </q-card-section>
 
-      </q-card>
-      <q-item>
-          <q-avatar class="q-pa-md row no-wrap items-center justify-around" size="300px" font-size="52px" color="transparent" rounded>
-            <img :src="`${project.avatar}`" alt="no image">
-          </q-avatar>
-      </q-item>
-    </div>
+        <q-separator vertical />
 
-    <div class="col-5" style="padding-left: 20px; padding-right: 20px">
+        <q-card-section class="col-6 justify-around">
 
-      <div class="row">
+            <div class="row">
 
-        <div v-if="editMode===false">
-          <h4>{{this.project.name}}</h4>
-        </div>
+              <div v-if="this.editMode === false">
 
-        <div v-else>
-          <h4>
-            <q-input
-                outlined
-                v-model="projectName"
-                standout="bg-secondary text-white"
-                label="Project name"
-                label-color="white"
-                bg-color="primary"
-                color="white"
-                lazy-rules="true"
-                :rules="[ val => val && val.length > 0 || 'Pool can not be blank']"
-                style="font-size: xx-large; font-palette: light;width: 170%"
-            >
-            </q-input>
-          </h4>
-        </div>
+                <div v-if="this.project.isPublic === true">
+                  <q-item>
+                    <q-item-section avatar>
+                      <q-icon name="share" />
+                    </q-item-section>
 
-        <q-btn v-if="editMode===false && this.userAccessLevel==='owner'" class="bg-teal no-wrap items-center justify-around" @click="toggleEditProject" style="margin-right: 50px; position: absolute; right: 0">
-          <q-item>
-            <q-item-section>
-              <q-icon name="edit"></q-icon>
-            </q-item-section>
-            <q-item-section>
-              Edit
-            </q-item-section>
-          </q-item>
-        </q-btn>
+                    <q-item-section>Public project</q-item-section>
+                  </q-item>
 
-        <div v-if="this.userAccessLevel==='access'">
-          <div v-if="this.project.usersThatAccepted.map(u=>u._id).includes(this.userId)">
+                </div>
 
-            <q-btn class="bg-light-green-4 no-wrap items-center justify-around" @click="unacceptProject" style="margin-right: 50px; position: absolute; right: 0">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="done"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Project accepted, click to unaccept
-                </q-item-section>
-              </q-item>
-            </q-btn>
+                <div v-else>
+                  <q-item>
+                    <q-item-section avatar>
+                      <q-icon name="verified_user" />
+                    </q-item-section>
 
-          </div>
-          <div v-else>
-            <q-btn class="bg-secondary items-center justify-around" @click="acceptProject" style="margin-right: 50px; position: absolute; right: 0">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="done"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Accept project
-                </q-item-section>
-              </q-item>
-            </q-btn>
-          </div>
-        </div>
+                    <q-item-section>Protected project</q-item-section>
+                  </q-item>
+                </div>
 
-        <div v-if="editMode===true && this.userAccessLevel==='owner'">
+              </div>
 
-            <q-btn class="bg-secondary no-wrap items-center justify-around" @click="editProject" style="margin-right: 50px; position: absolute; right: 0; width: 10%">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="send"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Save
-                </q-item-section>
-              </q-item>
-            </q-btn>
-
-            <q-btn class="bg-warning no-wrap items-center justify-around" @click="uneditProject" style="margin-right: 50px; position: absolute; right: 0; top:135px; width: 10%">
-              <q-item>
-                <q-item-section>
-                  <q-icon name="close"></q-icon>
-                </q-item-section>
-                <q-item-section>
-                  Cancel
-                </q-item-section>
-              </q-item>
-            </q-btn>
-
-        </div>
-
-      </div>
-      <div class="row">
-
-        <div v-if="editMode===false">
-          <p>{{this.project.description}}</p>
-        </div>
-
-        <div v-else>
-          <q-input
-              outlined
-              standout="bg-secondary text-white"
-              v-model="projectDesc"
-              placeholder="Type here..."
-              label="Project description"
-              label-color="white"
-              bg-color="primary"
-              type="textarea"
-              lazy-rules="true"
-              style="font-size: x-large; width: 250%"
-              :rules="[ val => val && val.length > 0 || 'Pool can not be blank']">
-          </q-input>
-        </div>
-
-      </div>
-
-      <q-separator></q-separator>
-
-      <div class="column q-pa-md justify-around">
-
-        <div class="row">
-
-          <div v-if="this.editMode === false">
-
-            <div v-if="this.project.isPublic === true">
-              <q-item>
-                <q-item-section avatar>
-                  <q-icon name="share" />
-                </q-item-section>
-
-                <q-item-section>Public project</q-item-section>
-              </q-item>
-
-            </div>
-
-            <div v-else>
-              <q-item>
-                <q-item-section avatar>
-                  <q-icon name="verified_user" />
-                </q-item-section>
-
-                <q-item-section>Protected project</q-item-section>
-              </q-item>
-            </div>
-
-          </div>
-
-          <div v-else>
-            <q-btn-toggle
-                v-model="isPublic"
-                no-caps
-                rounded
-                unelevated
-                toggle-color="secondary"
-                color="primary"
-                text-color="white"
-                :options="[
-                  {label: 'Protected', value: this.project.isPublic},
-                  {label: 'Public', value: !this.project.isPublic},
+              <div v-else>
+                <q-btn-toggle
+                    v-model="this.isPublic"
+                    no-caps
+                    rounded
+                    unelevated
+                    toggle-color="secondary"
+                    color="primary"
+                    text-color="white"
+                    :options="[
+                  {label: 'Protected', value: false},
+                  {label: 'Public', value: true},
                 ]"
+                />
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div v-if="this.project.isPublic === false">
+                <div v-if="project.usersWithAccess">
+                  <q-item clickable @click="setMenuToUserWithAccessList">
+                    <q-item-section avatar>
+                      <q-icon name="person_add" />
+                    </q-item-section>
+
+                    <q-item-section>Project accessed by: {{this.project.usersWithAccess.length}} users, click to grant access</q-item-section>
+                  </q-item>
+                </div>
+
+                <div v-else>
+                  <q-item clickable @click="this.setMenuToUserWithAccessList">
+                    <q-item-section avatar>
+                      <q-icon name="signal_wifi_4_bar_lock" />
+                    </q-item-section>
+
+                    <q-item-section v-if="userAccessLevel==='owner'">No one has access to project, click to grant</q-item-section>
+                    <q-item-section v-else>No one has access to project</q-item-section>
+                  </q-item>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div v-if="this.project.isPublic === false">
+                <div v-if="project.usersThatAccepted">
+                  <q-item clickable @click="this.setMenuToUserThatAccepted">
+                    <q-item-section avatar>
+                      <q-icon name="smoking_rooms" />
+                    </q-item-section>
+
+                    <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users, click to check who</q-item-section>
+                  </q-item>
+                </div>
+
+                <div v-else-if="project.usersThatAccepted.length === project.usersWithAccess.length">
+                  <q-item clickable @click="this.setMenuToUserThatAccepted">
+                    <q-item-section avatar>
+                      <q-icon name="check" />
+                    </q-item-section>
+
+                    <q-item-section>Project accepted</q-item-section>
+                  </q-item>
+                </div>
+
+                <div v-else>
+                  <q-item clickable @click="this.setMenuToUserWithAccessList">
+                    <q-item-section avatar>
+                      <q-icon name="verified_user" />
+                    </q-item-section>
+
+                    <q-item-section>No one has accepted project</q-item-section>
+                  </q-item>
+                </div>
+
+              </div>
+
+              <div v-else>
+                <q-item>
+                  <q-item-section avatar>
+                    <q-icon name="smoking_rooms" />
+                  </q-item-section>
+
+                  <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users</q-item-section>
+                </q-item>
+              </div>
+            </div>
+
+          <div class="row" v-if="editMode===true">
+            <q-btn flat
+                   rounded
+                   icon="edit"
+                   size="md"
+                   label="Save changes"
+                   @click="editProject"
+            />
+            <q-btn flat
+                   rounded
+                   icon="block"
+                   size="md"
+                   label="Cancel"
+                   @click="uneditProject"
             />
           </div>
 
-        </div>
-
-        <div class="row">
-
-          <div v-if="this.project.isPublic === false">
-            <div v-if="project.usersWithAccess">
-              <q-item clickable @click="setMenuToUserWithAccessList">
-                <q-item-section avatar>
-                  <q-icon name="person_add" />
-                </q-item-section>
-
-                <q-item-section>Project accessed by: {{this.project.usersWithAccess.length}} users, click to grant access</q-item-section>
-              </q-item>
-            </div>
-
-            <div v-else>
-              <q-item clickable @click="this.setMenuToUserWithAccessList">
-                <q-item-section avatar>
-                  <q-icon name="signal_wifi_4_bar_lock" />
-                </q-item-section>
-
-                <q-item-section v-if="userAccessLevel==='owner'">No one has access to project, click to grant</q-item-section>
-                <q-item-section v-else>No one has access to project</q-item-section>
-              </q-item>
-          </div>
-
-          </div>
-        </div>
-
-        <div class="row">
-
-          <div v-if="this.project.isPublic === false">
-            <div v-if="project.usersThatAccepted">
-              <q-item clickable @click="this.setMenuToUserThatAccepted">
-                <q-item-section avatar>
-                  <q-icon name="smoking_rooms" />
-                </q-item-section>
-
-                <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users, click to check who</q-item-section>
-              </q-item>
-            </div>
-
-            <div v-else-if="project.usersThatAccepted.length === project.usersWithAccess.length">
-              <q-item clickable @click="this.setMenuToUserThatAccepted">
-                <q-item-section avatar>
-                  <q-icon name="check" />
-                </q-item-section>
-
-                <q-item-section>Project accepted</q-item-section>
-              </q-item>
-            </div>
-
-            <div v-else>
-              <q-item clickable @click="this.setMenuToUserWithAccessList">
-                <q-item-section avatar>
-                  <q-icon name="verified_user" />
-                </q-item-section>
-
-                <q-item-section>No one has accepted project</q-item-section>
-              </q-item>
-            </div>
-          </div>
-
-          <div v-else>
-            <q-item>
-              <q-item-section avatar>
-                <q-icon name="smoking_rooms" />
-              </q-item-section>
-
-              <q-item-section>Project accepted by: {{this.project.usersThatAccepted.length}} users</q-item-section>
-            </q-item>
-          </div>
-
-        </div>
-
-      </div>
+        </q-card-section>
+      </q-card-section>
+    </q-card>
     </div>
 
-    <div class="column-3" style="padding: 20px">
+    <div class="col-3" style="padding: 20px" v-if="project.isPublic===false">
 
-      <div class="row" style="padding-top: 62px">
+      <div class="row">
         <div v-if="menuMode === 'userList'">
-          <UserList v-bind:users="this.project.usersWithAccess" :key="this.project.usersWithAccess" :userAccessLevel="userAccessLevel"></UserList>
+          <UserList v-bind:users="this.project.usersWithAccess"
+                    :key="this.project.usersWithAccess"
+                    :userAccessLevel="userAccessLevel"
+                    :tableHead="access">
+
+          </UserList>
         </div>
 
         <div v-if="menuMode === 'acceptedList'">
-          <UserList v-bind:users="this.project.usersThatAccepted" :key="this.project.usersThatAccepted"></UserList>
+          <UserList v-bind:users="this.project.usersThatAccepted"
+                    :key="this.project.usersThatAccepted"
+                    :tableHead="accept"
+          ></UserList>
         </div>
-      </div>
 
+        <div v-if="menuMode === 'start'">
+          <UserList></UserList>
+        </div>
+
+      </div>
     </div>
 
   </div>
@@ -305,11 +300,15 @@ export default {
       isPublic: false,
       val1: "",
       val2: "",
-      userId: null
+      userId: null,
+      access: "Accessed by",
+      accept: "Accepted by"
     }
   },
   mounted() {
     this.userId = sessionStorage.getItem('userId')
+    this.projectName = this.project.name
+    this.projectDesc = this.project.description
   },
   methods: {
     setMenuToUserWithAccessList() {
@@ -322,6 +321,7 @@ export default {
       this.editMode = true
       this.projectName = this.project.name
       this.projectDesc = this.project.description
+      this.isPublic = this.project.isPublic
       this.setLabels()
     },
     uneditProject() {

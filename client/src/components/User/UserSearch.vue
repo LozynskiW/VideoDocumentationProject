@@ -13,12 +13,11 @@
         <q-form class = "text-white">
           <q-input
               filled
-              rounded
               label-color="white"
               color="white"
               v-model="name"
               placeholder="Type"
-              label="Grant access to project"
+              label="Find person"
               @update:model-value="findUsers(this.name)"
           />
         </q-form>
